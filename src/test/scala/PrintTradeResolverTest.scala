@@ -6,13 +6,13 @@ class PrintTradeResolverTest extends AnyFunSuite {
     val rates = List(
       Rate("USD", "EUR", 0.9),
       Rate("EUR", "GBP", 0.85),
-      Rate("GBP", "JPY", 188.0),
-      Rate("JPY", "USD", 0.007)
+      Rate("GBP", "JPY", 194.0),
+      Rate("JPY", "USD", 0.008)
     )
 
     val startingValue = BigDecimal(100)
-    val finalValue = PrintTradeResolver.resolve(rates, startingValue)
+    val profitPercentage = PrintTradeResolver.resolve("USD", rates, startingValue)
 
-    assert(finalValue == startingValue * 0.9 * 0.85 * 188.0 * 0.007)
+    assert(profitPercentage == 0.1872800)
   }
 }

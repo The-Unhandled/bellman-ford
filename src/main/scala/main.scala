@@ -8,7 +8,6 @@ def main(): Unit = {
   decode[RateSet](ratesJson) match
     case Right(rates) => rates.rates
       .toList
-      .filterNot(_.isIdentity)
       .sortBy(_.from)
       .foreach(println)
     case Left(error)  => println(error)
