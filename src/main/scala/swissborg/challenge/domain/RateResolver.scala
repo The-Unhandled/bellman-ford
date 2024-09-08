@@ -27,7 +27,6 @@ object RateResolver:
         // Negative Cycle found
         case Some(edge @ Edge(from, _, _))
             if visitedNodes.contains(from.name) =>
-          Rate.fromEdge(edge) :: rateList
           keepCycle(Rate.fromEdge(edge) :: rateList)
         case Some(edge) =>
           resolveNodeRoutes(edge.from, Rate.fromEdge(edge) :: rateList)

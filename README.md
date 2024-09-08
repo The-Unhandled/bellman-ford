@@ -4,7 +4,8 @@ This project implements the Bellman-Ford algorithm to detect arbitrage cycles in
 The application fetches exchange rates from a specified URL and processes them to find potential arbitrage opportunities.
 It then prints the arbitrage cycles found, if any.
 
-## Getting Started
+## Prerequisites
+- [Scala CLI](https://scala-cli.virtuslab.org/) installed
 
 ### Running the Application
 

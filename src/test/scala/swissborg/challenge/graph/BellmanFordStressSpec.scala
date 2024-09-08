@@ -30,7 +30,6 @@ class BellmanFordStressSpec extends AnyFunSuite {
     val after = System.nanoTime
     println("Bellman Ford Elapsed time: " + (after - before) / 1000000 + "ms")
 
-    val before2 = System.nanoTime
     for
       rateList <- RateResolver.resolveRoutes(
         startingNode,
@@ -39,16 +38,14 @@ class BellmanFordStressSpec extends AnyFunSuite {
       )
       _ = PrintTradeResolver.resolve(startingNode.name, rateList, 100)
     yield ()
-    val after2 = System.nanoTime
-    println("Print Elapsed time: " + (after2 - before2) / 1000000 + "ms")
 
     // Assertions to ensure the algorithm runs without errors
     assert(distances.nonEmpty)
     assert(predecessors.nonEmpty)
 
-    // 200 - Bellman Ford Elapsed time: ~1456ms first impl
-    // 200 - BigDecimal -> Double ~400ms
+    // 200 currencies - Bellman Ford Elapsed time: ~1456ms first impl
+    // 200 currencies - BigDecimal -> Double ~400ms
 
-    // 400 - 3300 - 3525ms
+    // 400 currencies - 3300 - 3525ms
   }
 }

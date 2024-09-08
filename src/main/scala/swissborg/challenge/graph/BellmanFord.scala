@@ -14,6 +14,8 @@ import scala.collection.mutable.Map as MutableMap
   *   [[https://github.com/williamfiset/Algorithms/blob/master/src/main/java/com/williamfiset/algorithms/graphtheory/BellmanFordEdgeList.java William Fiset - Bellmman Ford EdgeList]]
   * @see
   *   [[https://anilpai.medium.com/currency-arbitrage-using-bellman-ford-algorithm-8938dcea56ea Currency Arbitrage using Bellman Ford Algorithm]]
+ * @see
+ *    [[https://www.ijisrt.com/assets/upload/files/IJISRT20MAY047.pdf Currency Arbitrage Detection]]
   */
 class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
 

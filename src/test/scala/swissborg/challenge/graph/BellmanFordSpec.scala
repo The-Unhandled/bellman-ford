@@ -27,9 +27,9 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
           startingNode <- nodes
           bellmanFord = BellmanFord(nodes, edges, startingNode)
           (distances, predecessors) = bellmanFord.findShortestPaths
-          //_ = println(s"Starting Node: $startingNode")
-          //_ = println(s"Distances from $startingNode: $distances")
-          //_ = println(s"Predecessors from $startingNode: $predecessors")
+          // _ = println(s"Starting Node: $startingNode")
+          // _ = println(s"Distances from $startingNode: $distances")
+          // _ = println(s"Predecessors from $startingNode: $predecessors")
           rateList <- RateResolver.resolveRoutes(
             startingNode,
             distances,
