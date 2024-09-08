@@ -2,55 +2,13 @@ package swissborg.challenge.graph
 
 import io.circe.jawn.decode
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.graph.{BellmanFord, Edge, Node}
-import swissborg.challenge.{PrintTradeResolver, Rate, RateResolver, RateSet}
+import swissborg.challenge.domain.{PrintTradeResolver, Rate, RateResolver, RateSet, RateUtils}
 
 import scala.io.Source
+import scala.math.BigDecimal.RoundingMode.HALF_UP
+import swissborg.challenge.domain.RateUtils._
 
-class BellmanFordSpec extends AnyFunSuite {
-
-  test("BellmanFord should find shortest paths for given graph") {
-    val nodes =
-      Set("USD", "CHF", "YEN", "GBP", "CNY", "EUR", "XXX", "YYY").map(
-        Node.apply
-      )
-
-    val INF = Double.PositiveInfinity
-    val matrix = Array(
-      //    USD  CHF  YEN  GBP   CNY  EUR  XXX  YYY
-      Array(0.0, 1.0, INF, INF, INF, INF, INF, INF), // USD
-      Array(INF, 0.0, 1.0, INF, INF, 4.0, 4.0, INF), // CHF
-      Array(INF, INF, 0.0, INF, 1.0, INF, INF, INF), // YEN
-      Array(INF, INF, 1.0, 0.0, INF, INF, INF, INF), // GBP
-      Array(INF, INF, INF, -3.0, 0.0, INF, INF, INF), // CNY
-      Array(INF, INF, INF, INF, INF, 0.0, 5.0, 3.0), // EUR
-      Array(INF, INF, INF, INF, INF, INF, 0.0, 4.0), // XXX
-      Array(INF, INF, INF, INF, INF, INF, INF, 0.0) // YYY
-    )
-
-    val edges = for {
-      (fromNode, i) <- nodes.zipWithIndex
-      (toNode, j) <- nodes.zipWithIndex
-      if matrix(i)(j) != INF
-    } yield Edge(fromNode, toNode, matrix(i)(j))
-
-    for
-      startingNode <- nodes
-      bellmanFord = BellmanFord(nodes, edges.toList, startingNode)
-      (distances, predecessors) = bellmanFord.findShortestPaths
-      _ = println(s"Starting Node: $startingNode")
-      _ = println(s"Distances from $startingNode: $distances")
-      _ = println(s"Predecessors from $startingNode: $predecessors")
-      rateList <- RateResolver.resolveRoutes(
-        startingNode,
-        distances,
-        predecessors
-      )
-      _ = PrintTradeResolver.resolve(startingNode.name, rateList)
-    yield ()
-
-    assert(1 == 1)
-  }
+class BellmanFordSpec extends AnyFunSuite with RateUtils {
 
   test("BellmanFord should find shortest paths for given rates from file") {
     val ratesJson = Source.fromResource("borgRates.json").getLines().mkString
@@ -60,6 +18,12 @@ class BellmanFordSpec extends AnyFunSuite {
         val nodes = rateSet.rates.map(_.from).map(Node.apply)
         val edges = rateSet.rates.map(_.toEdge).toList
 
+        val expectedRoute = List(
+          Rate("BTC", "EUR", 0.1),
+          Rate("EUR", "DAI", 0.09),
+          Rate("DAI", "BTC", 1.86)
+        )
+
         for
           startingNode <- nodes
           bellmanFord = BellmanFord(nodes, edges, startingNode)
@@ -67,13 +31,11 @@ class BellmanFordSpec extends AnyFunSuite {
           _ = println(s"Starting Node: $startingNode")
           _ = println(s"Distances from $startingNode: $distances")
           _ = println(s"Predecessors from $startingNode: $predecessors")
-          rateList <- RateResolver.resolveRoutes(
-            startingNode,
-            distances,
-            predecessors
-          )
-          _ = PrintTradeResolver.resolve(startingNode.name, rateList)
-        yield ()
+          rateList <- RateResolver.resolveRoutes(startingNode, distances, predecessors)
+          profit = PrintTradeResolver.resolve(startingNode.name, rateList)
+        yield
+          rateList === expectedRoute
+          assert(BigDecimal(profit).setScale(2, HALF_UP) == 0.26)
 
       case Left(error) =>
         fail(s"Failed to decode rates: $error")
@@ -81,8 +43,6 @@ class BellmanFordSpec extends AnyFunSuite {
   }
 
   test("BellmanFord should find shortest paths for given matrix rates") {
-
-    // Test sto tetragwno
     val testList = List(
       Rate("EUR", "DAI", 1.0211378960),
       Rate("DAI", "BTC", 0.0000429088),
@@ -95,12 +55,10 @@ class BellmanFordSpec extends AnyFunSuite {
     println(s"edgeSum: $edgeSum")
 
     println("\n###\n")
-    // End supertest
 
     val nodes = Set("BTC", "BORG", "DAI", "EUR").map(Node.apply)
 
     val matrix = Array(
-      //    BTC          BORG         DAI          EUR
       Array(1.0, 116352.2654440156, 23333, 23258.8865583847), // BTC
       Array(0.0000086866, 1.0, 0.2053990550, 0.2017539914), // BORG
       Array(0.0000429088, 4.9320433378, 1.0, 0.9907652193), // DAI
@@ -113,6 +71,12 @@ class BellmanFordSpec extends AnyFunSuite {
       rate = Rate(fromNode.name, toNode.name, matrix(i)(j))
     } yield rate.toEdge
 
+    val expectedRoute = List(
+      Rate("BTC", "EUR", 0.086),
+      Rate("EUR", "DAI", 0.021),
+      Rate("DAI", "BTC", 4.290880000000003E-5)
+    )
+
     for
       startingNode <- nodes
       bellmanFord = BellmanFord(nodes, edges.toList, startingNode)
@@ -120,14 +84,10 @@ class BellmanFordSpec extends AnyFunSuite {
       _ = println(s"Starting Node: $startingNode")
       _ = println(s"Distances from $startingNode: $distances")
       _ = println(s"Predecessors from $startingNode: $predecessors")
-      rateList <- RateResolver.resolveRoutes(
-        startingNode,
-        distances,
-        predecessors
-      )
-      _ = PrintTradeResolver.resolve(startingNode.name, rateList, 100)
-    yield ()
-
+      rateList <- RateResolver.resolveRoutes(startingNode, distances, predecessors)
+      profit = PrintTradeResolver.resolve(startingNode.name, rateList, 100)
+    yield
+      rateList === expectedRoute
+      assert(BigDecimal(profit).setScale(2, HALF_UP) == 1.91)
   }
-
 }

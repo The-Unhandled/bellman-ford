@@ -1,7 +1,5 @@
 package swissborg.challenge.graph
 
-import scala.math.BigDecimal.RoundingMode
-
 case class Node(name: String):
   override def toString: String = name
 

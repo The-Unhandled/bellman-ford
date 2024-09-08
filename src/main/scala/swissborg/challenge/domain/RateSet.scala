@@ -2,7 +2,6 @@ package swissborg.challenge.domain
 
 import cats.syntax.traverse.*
 import io.circe.{Decoder, DecodingFailure, HCursor}
-import swissborg.challenge.RateSet
 
 case class RateSet(rates: Set[Rate])
 

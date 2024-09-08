@@ -1,8 +1,10 @@
-package swissborg.challenge
+package swissborg.challenge.domain
 
 import org.scalatest.funsuite.AnyFunSuite
 
-class PrintTradeResolverTest extends AnyFunSuite {
+import scala.math.BigDecimal.RoundingMode.HALF_UP
+
+class PrintTradeResolverSpec extends AnyFunSuite {
 
   test("PrintTradeResolver should correctly resolve trades with 3 rates") {
     val rates = List(
@@ -13,8 +15,9 @@ class PrintTradeResolverTest extends AnyFunSuite {
     )
 
     val startingValue = 100
-    val profitPercentage = PrintTradeResolver.resolve("USD", rates, startingValue)
+    val profitPercentage =
+      PrintTradeResolver.resolve("USD", rates, startingValue)
 
-    assert(profitPercentage == 0.1872800)
+    assert(BigDecimal(profitPercentage).setScale(2, HALF_UP) == 18.73)
   }
 }

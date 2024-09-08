@@ -2,11 +2,11 @@ package swissborg.challenge.graph
 
 import org.scalatest.funsuite.AnyFunSuite
 import swissborg.challenge.graph.{BellmanFord, Edge, Node}
-import swissborg.challenge.{PrintTradeResolver, RateResolver}
+import swissborg.challenge.domain.{PrintTradeResolver, RateResolver}
 
 import scala.util.Random
 
-class BellmanFordStressTest extends AnyFunSuite {
+class BellmanFordStressSpec extends AnyFunSuite {
 
   test("Bellman-Ford stress test with 1000 currencies") {
     val numCurrencies = 200

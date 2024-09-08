@@ -1,7 +1,6 @@
 package swissborg.challenge.domain
 
 import io.circe.{Decoder, DecodingFailure, HCursor}
-import swissborg.challenge.Rate
 import swissborg.challenge.graph.{Edge, Node}
 
 import scala.math.BigDecimal.RoundingMode

@@ -1,25 +1,17 @@
 package swissborg.challenge.client
 
-import sttp.client3._
-import sttp.client3.circe._
-import io.circe.generic.auto._
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import RateSet
+import sttp.client3.*
+import sttp.client3.circe.*
+import swissborg.challenge.domain.RateSet
 
-class SwissborgRatesClient(url: String) {
-  private val backend = HttpURLConnectionBackend()
+class SwissborgRatesClient(url: String, backend: SttpBackend[Identity, Any]):
 
-  def fetchRates(): Future[Either[String, RateSet]] = {
+  def fetchRates: RateSet =
     val request = basicRequest
       .get(uri"$url")
       .response(asJson[RateSet])
 
-    Future {
-      request.send(backend).body match {
-        case Right(rateSet) => Right(rateSet)
-        case Left(error) => Left(error.getMessage)
-      }
-    }
-  }
-}
+    backend.send(request).body match
+      case Right(rateSet) => rateSet
+      case Left(exception) =>
+        throw new Exception(s"Failed to fetch rates: $exception")

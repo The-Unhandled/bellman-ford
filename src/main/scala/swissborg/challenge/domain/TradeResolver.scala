@@ -1,7 +1,5 @@
 package swissborg.challenge.domain
 
-import swissborg.challenge.TradeResolver
-
 import scala.annotation.tailrec
 
 /** @author
@@ -51,4 +49,4 @@ object PrintTradeResolver extends TradeResolver:
       println(
         f"Profit: $profitPercentage%.2f%%"
       )
-      percentage
+      profitPercentage
