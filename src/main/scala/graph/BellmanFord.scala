@@ -14,11 +14,11 @@ import scala.collection.mutable.Map as MutableMap
   */
 class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
 
-  def findShortestPaths: (Map[Node, BigDecimal], Map[Node, Option[Edge]]) =
+  def findShortestPaths: (Map[Node, Double], Map[Node, Option[Edge]]) =
 
     // Step 1: initialize graph
-    val distance: MutableMap[Node, BigDecimal] =
-      mutable.HashMap(nodes.map(_ -> BigDecimal(Double.MaxValue)).toSeq: _*)
+    val distance: MutableMap[Node, Double] =
+      mutable.HashMap(nodes.map(_ -> Double.PositiveInfinity).toSeq: _*)
 
     val predecessor: MutableMap[Node, Option[Edge]] =
       mutable.HashMap(nodes.map(_ -> None).toSeq: _*)
@@ -30,8 +30,9 @@ class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
     for (_ <- 1 until nodes.size if relaxedAnEdge) {
       relaxedAnEdge = false
       for (edge <- edges) {
-        if (distance(edge.from) + edge.weight < distance(edge.to)) {
-          distance(edge.to) = distance(edge.from) + edge.weight
+        val newDistance = distance(edge.from) + edge.weight
+        if (newDistance < distance(edge.to)) {
+          distance(edge.to) = newDistance
           predecessor(edge.to) = Some(edge)
           relaxedAnEdge = true
         }
@@ -43,7 +44,7 @@ class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
       relaxedAnEdge = false
       for (edge <- edges) {
         if (distance(edge.from) + edge.weight < distance(edge.to)) {
-          distance(edge.to) = BigDecimal(Double.MinValue)
+          distance(edge.to) = Double.NegativeInfinity
           relaxedAnEdge = true
         }
       }

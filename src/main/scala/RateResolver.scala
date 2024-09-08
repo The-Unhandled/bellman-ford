@@ -6,7 +6,7 @@ object RateResolver:
 
   def resolveRoutes(
       startingNode: Node,
-      distances: Map[Node, BigDecimal],
+      distances: Map[Node, Double],
       predecessors: Map[Node, Option[Edge]]
   ): List[List[Rate]] =
 

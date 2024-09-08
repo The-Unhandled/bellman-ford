@@ -10,7 +10,7 @@ class PrintTradeResolverTest extends AnyFunSuite {
       Rate("JPY", "USD", 0.008)
     )
 
-    val startingValue = BigDecimal(100)
+    val startingValue = 100
     val profitPercentage = PrintTradeResolver.resolve("USD", rates, startingValue)
 
     assert(profitPercentage == 0.1872800)

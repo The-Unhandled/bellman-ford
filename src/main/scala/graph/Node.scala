@@ -5,9 +5,9 @@ import scala.math.BigDecimal.RoundingMode
 case class Node(name: String):
   override def toString: String = name
 
-case class Edge(from: Node, to: Node, weight: BigDecimal):
-  override def toString: String = s"$from -> $to: ${weight.setScale(2, RoundingMode.HALF_UP)}"
+case class Edge(from: Node, to: Node, weight: Double):
+  override def toString: String = s"$from -> $to: $weight"
 
 object Edge:
-  def apply(from: String, to: String, weight: BigDecimal): Edge =
+  def apply(from: String, to: String, weight: Double): Edge =
     Edge(Node(from), Node(to), weight)

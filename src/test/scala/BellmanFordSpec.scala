@@ -29,13 +29,13 @@ class BellmanFordSpec extends AnyFunSuite {
       (fromNode, i) <- nodes.zipWithIndex
       (toNode, j) <- nodes.zipWithIndex
       if matrix(i)(j) != INF
-    } yield Edge(fromNode, toNode, BigDecimal(matrix(i)(j)))
+    } yield Edge(fromNode, toNode, matrix(i)(j))
 
     for
       startingNode <- nodes
       bellmanFord = BellmanFord(nodes, edges.toList, startingNode)
       (distances, predecessors) = bellmanFord.findShortestPaths
-      _ = println(s"startingNode: $startingNode")
+      _ = println(s"Starting Node: $startingNode")
       _ = println(s"Distances from $startingNode: $distances")
       _ = println(s"Predecessors from $startingNode: $predecessors")
       rateList <- RateResolver.resolveRoutes(
@@ -44,7 +44,6 @@ class BellmanFordSpec extends AnyFunSuite {
         predecessors
       )
       _ = PrintTradeResolver.resolve(startingNode.name, rateList)
-      _ = println("###")
     yield ()
 
     assert(1 == 1)
@@ -62,7 +61,7 @@ class BellmanFordSpec extends AnyFunSuite {
           startingNode <- nodes
           bellmanFord = BellmanFord(nodes, edges, startingNode)
           (distances, predecessors) = bellmanFord.findShortestPaths
-          _ = println(s"startingNode: $startingNode")
+          _ = println(s"Starting Node: $startingNode")
           _ = println(s"Distances from $startingNode: $distances")
           _ = println(s"Predecessors from $startingNode: $predecessors")
           rateList <- RateResolver.resolveRoutes(
@@ -71,7 +70,6 @@ class BellmanFordSpec extends AnyFunSuite {
             predecessors
           )
           _ = PrintTradeResolver.resolve(startingNode.name, rateList)
-          _ = println("###")
         yield ()
 
       case Left(error) =>
@@ -109,15 +107,16 @@ class BellmanFordSpec extends AnyFunSuite {
     val edges = for {
       (fromNode, i) <- nodes.zipWithIndex
       (toNode, j) <- nodes.zipWithIndex
-      rate = Rate(fromNode.name, toNode.name, BigDecimal(matrix(i)(j)))
+      rate = Rate(fromNode.name, toNode.name, matrix(i)(j))
     } yield rate.toEdge
 
     for
       startingNode <- nodes
       bellmanFord = BellmanFord(nodes, edges.toList, startingNode)
       (distances, predecessors) = bellmanFord.findShortestPaths
-      _ = println(s"Distances from EUR: $distances")
-      _ = println(s"Predecessors from EUR: $predecessors")
+      _ = println(s"Starting Node: $startingNode")
+      _ = println(s"Distances from $startingNode: $distances")
+      _ = println(s"Predecessors from $startingNode: $predecessors")
       rateList <- RateResolver.resolveRoutes(
         startingNode,
         distances,

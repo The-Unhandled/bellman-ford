@@ -3,6 +3,8 @@ import cats.syntax.traverse.*
 import cats.instances.list.*
 import graph.{Edge, Node}
 
+import scala.math.BigDecimal.RoundingMode
+
 opaque type Currency = String
 
 case class RateSet(rates : Set[Rate])
@@ -16,15 +18,14 @@ object RateSet:
       pair.split("-") match
         case Array(to, from) =>
           for
-            price <- c.downField("rates").downField(pair).as[BigDecimal]
-            priceWithPrecision2 = price.setScale(2, BigDecimal.RoundingMode.HALF_UP)
+            price <- c.downField("rates").downField(pair).as[Double]
           yield Rate(from, to, price)
         case _ => Left(DecodingFailure("Invalid pair", c.history))
     }
   yield RateSet(rates.toSet)
 
-case class Rate(from : String, to : String, value : BigDecimal):
-  override def toString = s"$from -> $to: $value"
+case class Rate(from : String, to : String, value : Double):
+  override def toString = f"$from -> $to: ${value%.2f}"
   def isIdentity: Boolean = from == to
   def toEdge: Edge = Edge(Node(from), Node(to), -Math.log(value.doubleValue))
 

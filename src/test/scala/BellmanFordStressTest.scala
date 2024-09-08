@@ -15,7 +15,7 @@ class BellmanFordStressTest extends AnyFunSuite {
     val edges = for {
       fromNode <- nodes
       toNode <- nodes if fromNode != toNode
-      weight = BigDecimal(random.nextDouble() * 10).setScale(2, BigDecimal.RoundingMode.HALF_UP) - 5
+      weight = random.nextDouble() * 10 - 5
     } yield Edge(fromNode, toNode, weight)
 
     // Pick a random starting node
@@ -43,7 +43,13 @@ class BellmanFordStressTest extends AnyFunSuite {
     // Assertions to ensure the algorithm runs without errors
     assert(distances.nonEmpty)
     assert(predecessors.nonEmpty)
-    
-    // Bellman Ford Elapsed time: 1456ms
+
+    // 200 - Bellman Ford Elapsed time: 1456ms
+
+    // 200 - Bellman Ford Elapsed time: 1176ms
+
+    // 200 - BigDecimal -> Double 400ms
+
+    // 400 - 3300 - 3525ms
   }
 }
