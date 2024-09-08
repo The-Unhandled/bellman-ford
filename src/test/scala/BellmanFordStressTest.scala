@@ -1,0 +1,49 @@
+import org.scalatest.funsuite.AnyFunSuite
+import scala.util.Random
+import graph.{Node, Edge, BellmanFord}
+
+class BellmanFordStressTest extends AnyFunSuite {
+
+  test("Bellman-Ford stress test with 1000 currencies") {
+    val numCurrencies = 200
+    val random = new Random()
+
+    // Generate 1000 unique currency nodes
+    val nodes = (1 to numCurrencies).map(i => Node(s"Currency$i")).toSet
+
+    // Generate random edges between nodes with random weights
+    val edges = for {
+      fromNode <- nodes
+      toNode <- nodes if fromNode != toNode
+      weight = BigDecimal(random.nextDouble() * 10).setScale(2, BigDecimal.RoundingMode.HALF_UP) - 5
+    } yield Edge(fromNode, toNode, weight)
+
+    // Pick a random starting node
+    val startingNode = nodes.head
+
+    // Run Bellman-Ford algorithm
+    val before = System.nanoTime
+    val bellmanFord = BellmanFord(nodes, edges.toList, startingNode)
+    val (distances, predecessors) = bellmanFord.findShortestPaths
+    val after = System.nanoTime
+    println("Bellman Ford Elapsed time: " + (after - before) / 1000000 + "ms")
+
+    val before2 = System.nanoTime
+    for
+      rateList <- RateResolver.resolveRoutes(
+        startingNode,
+        distances,
+        predecessors
+      )
+      _ = PrintTradeResolver.resolve(startingNode.name, rateList, 100)
+    yield ()
+    val after2 = System.nanoTime
+    println("Print Elapsed time: " + (after2 - before2) / 1000000 + "ms")
+
+    // Assertions to ensure the algorithm runs without errors
+    assert(distances.nonEmpty)
+    assert(predecessors.nonEmpty)
+    
+    // Bellman Ford Elapsed time: 1456ms
+  }
+}

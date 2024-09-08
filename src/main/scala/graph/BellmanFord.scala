@@ -9,6 +9,8 @@ import scala.collection.mutable.Map as MutableMap
   *   [[https://dev.to/optiklab/algorithmic-alchemy-exploiting-graph-theory-in-the-foreign-exchange-399k Graph Theory in the Foreign Exchange]]
   * @see
   *   [[https://github.com/williamfiset/Algorithms/blob/master/src/main/java/com/williamfiset/algorithms/graphtheory/BellmanFordEdgeList.java William Fiset - Bellmman Ford EdgeList]]
+  * @see
+  *   [[https://anilpai.medium.com/currency-arbitrage-using-bellman-ford-algorithm-8938dcea56ea Currency Arbitrage using Bellman Ford Algorithm]]
   */
 class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
 
@@ -37,7 +39,6 @@ class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
     }
 
     // Step 3: check for negative-weight cycles
-    relaxedAnEdge = true
     for (_ <- 1 until nodes.size if relaxedAnEdge) {
       relaxedAnEdge = false
       for (edge <- edges) {

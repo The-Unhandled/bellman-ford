@@ -26,9 +26,9 @@ object RateSet:
 case class Rate(from : String, to : String, value : BigDecimal):
   override def toString = s"$from -> $to: $value"
   def isIdentity: Boolean = from == to
-  def toEdge: Edge = Edge(Node(from), Node(to), Math.log(value.doubleValue))
+  def toEdge: Edge = Edge(Node(from), Node(to), -Math.log(value.doubleValue))
 
 
 object Rate:
-  def fromEdge(edge: Edge): Rate = Rate(edge.from.name, edge.to.name, Math.exp(edge.weight.doubleValue))
+  def fromEdge(edge: Edge): Rate = Rate(edge.from.name, edge.to.name, Math.exp(-edge.weight.doubleValue))
   def identity(currency: String): Rate = Rate(currency, currency, 1.0)
