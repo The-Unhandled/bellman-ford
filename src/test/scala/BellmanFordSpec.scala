@@ -38,8 +38,8 @@ class BellmanFordSpec extends AnyFunSuite {
       _ = println(s"startingNode: $startingNode")
       _ = println(s"Distances from $startingNode: $distances")
       _ = println(s"Predecessors from $startingNode: $predecessors")
-      rateList <- RateResolver.resolveRoutes(distances, predecessors)
-      _ = PrintTradeResolver.resolve(startingNode.name, rateList)
+      //rateList <- RateResolver.resolveRoutes(distances, predecessors)
+      //_ = PrintTradeResolver.resolve(startingNode.name, rateList)
       _ = println("###")
     yield ()
 
@@ -51,10 +51,7 @@ class BellmanFordSpec extends AnyFunSuite {
 
     decode[RateSet](ratesJson) match {
       case Right(rateSet) =>
-
-        val nodes = rateSet.rates.map(_.from).map(Node.apply)
-        val edges = rateSet.rates.map(_.toEdge).toList
-
+        val (rateMap, nodes, edges) = RateSetToEdgeTransformer.transform(rateSet)
         for
           startingNode <- nodes
           bellmanFord = BellmanFord(nodes, edges, startingNode)
@@ -62,7 +59,7 @@ class BellmanFordSpec extends AnyFunSuite {
           _ = println(s"startingNode: $startingNode")
           _ = println(s"Distances from $startingNode: $distances")
           _ = println(s"Predecessors from $startingNode: $predecessors")
-          rateList <- RateResolver.resolveRoutes(distances, predecessors)
+          rateList <- RateResolver.resolveRoutes(distances, predecessors, rateMap)
           _ = PrintTradeResolver.resolve(startingNode.name, rateList)
           _ = println("###")
         yield ()
@@ -74,7 +71,7 @@ class BellmanFordSpec extends AnyFunSuite {
 
 
   test("BellmanFord should find shortest paths for given matrix rates") {
-    val nodes = Set("BTC", "BORG", "DAI", "EUR").map(Node.apply)
+    val currencies = Set("BTC", "BORG", "DAI", "EUR").map(Node.apply)
 
     val matrix = Array(
       //    BTC          BORG         DAI          EUR
@@ -84,17 +81,19 @@ class BellmanFordSpec extends AnyFunSuite {
       Array(0.0000435564, 5.0427577751, 1.0211378960, 1.0)         // EUR
     )
 
-    val edges = for {
-      (fromNode, i) <- nodes.zipWithIndex
-      (toNode, j) <- nodes.zipWithIndex
+    val rateSet = RateSet(for {
+      (fromNode, i) <- currencies.zipWithIndex
+      (toNode, j) <- currencies.zipWithIndex
       rate =  Rate(fromNode.name, toNode.name, BigDecimal(matrix(i)(j)))
-    } yield rate.toEdge
+    } yield rate)
 
-    val bellmanFord = BellmanFord(nodes, edges.toList, Node("EUR"))
+    val (rateMap, nodes, edges) = RateSetToEdgeTransformer.transform(rateSet)
+    
+    val bellmanFord = BellmanFord(currencies, edges, Node("EUR"))
     val (distances, predecessors) = bellmanFord.findShortestPaths
     println(s"Distances from EUR: $distances")
     println(s"Predecessors from EUR: $predecessors")
-    val rateList = RateResolver.resolveRoutes(distances, predecessors)
+    val rateList = RateResolver.resolveRoutes(distances, predecessors, rateMap)
     rateList.foreach(PrintTradeResolver.resolve("EUR", _, 100))
 
     assert(1 == 1)

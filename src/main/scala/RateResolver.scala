@@ -6,7 +6,8 @@ object RateResolver:
 
   def resolveRoutes(
       distances: Map[Node, BigDecimal],
-      predecessors: Map[Node, Option[Edge]]
+      predecessors: Map[Node, Option[Edge]],
+      rateMap: Map[String, Map[String, BigDecimal]],
   ): List[List[Rate]] =
 
     @tailrec
@@ -15,7 +16,8 @@ object RateResolver:
         case None =>
           rateList
         case Some(edge) =>
-          resolveNodeRoutes(edge.from, Rate.fromEdge(edge) :: rateList)
+          val rate = Rate(edge.from.name, edge.to.name, rateMap(edge.from.name)(edge.to.name)) 
+          resolveNodeRoutes(edge.from, rate :: rateList)
       }
 
     (for

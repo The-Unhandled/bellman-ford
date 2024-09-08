@@ -1,9 +1,6 @@
-import io.circe.{Decoder, DecodingFailure, HCursor}
-import cats.syntax.traverse.*
 import cats.instances.list.*
-import graph.{Edge, Node}
-
-opaque type Currency = String
+import cats.syntax.traverse.*
+import io.circe.{Decoder, DecodingFailure, HCursor}
 
 case class RateSet(rates : Set[Rate])
 
@@ -26,9 +23,7 @@ object RateSet:
 case class Rate(from : String, to : String, value : BigDecimal):
   override def toString = s"$from -> $to: $value"
   def isIdentity: Boolean = from == to
-  def toEdge: Edge = Edge(Node(from), Node(to), Math.log(value.doubleValue))
 
 
 object Rate:
-  def fromEdge(edge: Edge): Rate = Rate(edge.from.name, edge.to.name, Math.exp(edge.weight.doubleValue))
   def identity(currency: String): Rate = Rate(currency, currency, 1.0)
