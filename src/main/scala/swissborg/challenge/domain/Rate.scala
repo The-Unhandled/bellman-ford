@@ -1,9 +1,6 @@
 package swissborg.challenge.domain
 
-import io.circe.{Decoder, DecodingFailure, HCursor}
 import swissborg.challenge.graph.{Edge, Node}
-
-import scala.math.BigDecimal.RoundingMode
 
 case class Rate(from: String, to: String, value: Double):
   override def toString = f"$from -> $to: ${value % .2f}"

@@ -13,7 +13,8 @@ class SwissborgRatesClient(url: String, backend: SttpBackend[Identity, Any]):
 
     request.send(backend).body match
       case Right(rateSet) => rateSet
-      case Left(error)    => throw new Exception(s"Failed to fetch rates - ${error.getMessage}")
+      case Left(error) =>
+        throw new Exception(s"Failed to fetch rates - ${error.getMessage}")
 
 object SwissborgRatesClient:
   def apply(url: String): SwissborgRatesClient =

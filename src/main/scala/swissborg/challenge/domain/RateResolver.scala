@@ -4,6 +4,9 @@ import swissborg.challenge.graph.{Edge, Node}
 
 import scala.annotation.tailrec
 
+/** Resolves the negative cycles found in the Bellman-Ford algorithm and returns
+  * the list of rates that form the cycle
+  */
 object RateResolver:
 
   def resolveRoutes(
@@ -22,7 +25,8 @@ object RateResolver:
         case None =>
           rateList
         // Negative Cycle found
-        case Some(edge @ Edge(from, _, _))  if visitedNodes.contains(from.name) =>
+        case Some(edge @ Edge(from, _, _))
+            if visitedNodes.contains(from.name) =>
           Rate.fromEdge(edge) :: rateList
           keepCycle(Rate.fromEdge(edge) :: rateList)
         case Some(edge) =>

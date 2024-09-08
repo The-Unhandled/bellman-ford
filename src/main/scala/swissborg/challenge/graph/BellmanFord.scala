@@ -3,7 +3,10 @@ package swissborg.challenge.graph
 import scala.collection.mutable
 import scala.collection.mutable.Map as MutableMap
 
-/** @see
+/** Implementation of the Bellman Ford algorithm to find the shortest path in a
+  * graph.
+  *
+  * @see
   *   [[https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm Bellman Ford Algorithm]]
   * @see
   *   [[https://dev.to/optiklab/algorithmic-alchemy-exploiting-graph-theory-in-the-foreign-exchange-399k Graph Theory in the Foreign Exchange]]

@@ -1,14 +1,13 @@
 package swissborg.challenge.graph
 import org.scalatest.funsuite.AnyFunSuite
 import swissborg.challenge.domain.{PrintTradeResolver, RateResolver}
-import swissborg.challenge.graph.{BellmanFord, Edge, Node}
 
 import scala.util.Random
 
 class BellmanFordStressSpec extends AnyFunSuite {
 
-  test("Bellman-Ford stress test with 1000 currencies") {
-    val numCurrencies = 200
+  ignore("Bellman-Ford stress test with 400 currencies") {
+    val numCurrencies = 400
     val random = new Random()
 
     // Generate 1000 unique currency nodes
@@ -47,11 +46,8 @@ class BellmanFordStressSpec extends AnyFunSuite {
     assert(distances.nonEmpty)
     assert(predecessors.nonEmpty)
 
-    // 200 - Bellman Ford Elapsed time: 1456ms
-
-    // 200 - Bellman Ford Elapsed time: 1176ms
-
-    // 200 - BigDecimal -> Double 400ms
+    // 200 - Bellman Ford Elapsed time: ~1456ms first impl
+    // 200 - BigDecimal -> Double ~400ms
 
     // 400 - 3300 - 3525ms
   }

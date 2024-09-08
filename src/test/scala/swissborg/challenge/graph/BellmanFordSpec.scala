@@ -1,8 +1,8 @@
 package swissborg.challenge.graph
 import io.circe.jawn.decode
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.domain.RateUtils.*
 import swissborg.challenge.domain.*
+import swissborg.challenge.domain.RateUtils.*
 
 import scala.io.Source
 import scala.math.BigDecimal.RoundingMode.HALF_UP
@@ -27,17 +27,16 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
           startingNode <- nodes
           bellmanFord = BellmanFord(nodes, edges, startingNode)
           (distances, predecessors) = bellmanFord.findShortestPaths
-          _ = println(s"Starting Node: $startingNode")
-          _ = println(s"Distances from $startingNode: $distances")
-          _ = println(s"Predecessors from $startingNode: $predecessors")
+          //_ = println(s"Starting Node: $startingNode")
+          //_ = println(s"Distances from $startingNode: $distances")
+          //_ = println(s"Predecessors from $startingNode: $predecessors")
           rateList <- RateResolver.resolveRoutes(
             startingNode,
             distances,
             predecessors
           )
           profit = PrintTradeResolver.resolve(startingNode.name, rateList)
-        yield
-          rateList === expectedRoute
+        yield rateList === expectedRoute
 
       case Left(error) =>
         fail(s"Failed to decode rates: $error")
@@ -45,19 +44,6 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
   }
 
   test("BellmanFord should find shortest paths for given matrix rates") {
-    val testList = List(
-      Rate("EUR", "DAI", 1.0211378960),
-      Rate("DAI", "BTC", 0.0000429088),
-      Rate("BTC", "EUR", 23258.8865583847)
-    )
-
-    PrintTradeResolver.resolve("EUR", testList, 100)
-
-    val edgeSum = testList.map(_.toEdge).map(_.weight).sum
-    println(s"edgeSum: $edgeSum")
-
-    println("\n###\n")
-
     val nodes = Set("BTC", "BORG", "DAI", "EUR").map(Node.apply)
 
     val matrix = Array(
@@ -83,9 +69,9 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
       startingNode <- nodes
       bellmanFord = BellmanFord(nodes, edges.toList, startingNode)
       (distances, predecessors) = bellmanFord.findShortestPaths
-      _ = println(s"Starting Node: $startingNode")
-      _ = println(s"Distances from $startingNode: $distances")
-      _ = println(s"Predecessors from $startingNode: $predecessors")
+      // _ = println(s"Starting Node: $startingNode")
+      // _ = println(s"Distances from $startingNode: $distances")
+      // _ = println(s"Predecessors from $startingNode: $predecessors")
       rateList <- RateResolver.resolveRoutes(
         startingNode,
         distances,

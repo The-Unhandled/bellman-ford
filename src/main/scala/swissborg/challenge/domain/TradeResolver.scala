@@ -2,10 +2,6 @@ package swissborg.challenge.domain
 
 import scala.annotation.tailrec
 
-/** @author
-  *   Petros Siatos
-  */
-
 trait TradeResolver:
   /** Returns percentage value of trade (assuming cyclic trade) (e.g. 1.1 for
     * 10% profit)
@@ -16,6 +12,8 @@ trait TradeResolver:
       startingValue: Double
   ): Double
 
+/** Prints the trades to the console
+  */
 object PrintTradeResolver extends TradeResolver:
   def resolve(
       startingCurrency: String,
@@ -34,7 +32,7 @@ object PrintTradeResolver extends TradeResolver:
         val nextValue = currentValue * trade.value
         println(
           f"$index Trade $currentValue ${trade.from} for $nextValue ${trade.to}"
-       // f"$index Trade $currentValue%.2f ${trade.from} for $nextValue%.2f ${trade.to}"
+          // f"$index Trade $currentValue%.2f ${trade.from} for $nextValue%.2f ${trade.to}"
         )
         calculate(index + 1, nextValue, nextTrades)
 
@@ -46,7 +44,5 @@ object PrintTradeResolver extends TradeResolver:
       val endingValue = calculate(1, startingValue, trades)
       val percentage = (endingValue / startingValue) * 100
       val profitPercentage = percentage - 100
-      println(
-        f"Profit: $profitPercentage%.2f%%"
-      )
+      println(f"Profit: $profitPercentage%.2f%%")
       profitPercentage
