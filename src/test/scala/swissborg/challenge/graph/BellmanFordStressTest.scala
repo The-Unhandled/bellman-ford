@@ -1,6 +1,10 @@
+package swissborg.challenge.graph
+
 import org.scalatest.funsuite.AnyFunSuite
+import swissborg.challenge.graph.{BellmanFord, Edge, Node}
+import swissborg.challenge.{PrintTradeResolver, RateResolver}
+
 import scala.util.Random
-import graph.{Node, Edge, BellmanFord}
 
 class BellmanFordStressTest extends AnyFunSuite {
 

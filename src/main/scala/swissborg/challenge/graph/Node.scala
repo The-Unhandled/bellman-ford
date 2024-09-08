@@ -1,4 +1,4 @@
-package graph
+package swissborg.challenge.graph
 
 import scala.math.BigDecimal.RoundingMode
 

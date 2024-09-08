@@ -1,4 +1,6 @@
-import graph.{Edge, Node}
+package swissborg.challenge.domain
+
+import swissborg.challenge.graph.{Edge, Node}
 
 import scala.annotation.tailrec
 

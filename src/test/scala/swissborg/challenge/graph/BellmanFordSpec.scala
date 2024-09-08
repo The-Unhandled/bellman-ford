@@ -1,6 +1,9 @@
-import org.scalatest.funsuite.AnyFunSuite
-import graph.{BellmanFord, Edge, Node}
+package swissborg.challenge.graph
+
 import io.circe.jawn.decode
+import org.scalatest.funsuite.AnyFunSuite
+import swissborg.challenge.graph.{BellmanFord, Edge, Node}
+import swissborg.challenge.{PrintTradeResolver, Rate, RateResolver, RateSet}
 
 import scala.io.Source
 

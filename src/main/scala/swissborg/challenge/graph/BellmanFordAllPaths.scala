@@ -1,4 +1,4 @@
-package graph
+package swissborg.challenge.graph
 
 import scala.collection.mutable
 import scala.collection.mutable.Map as MutableMap
@@ -9,19 +9,16 @@ import scala.collection.mutable.Map as MutableMap
   *   [[https://dev.to/optiklab/algorithmic-alchemy-exploiting-graph-theory-in-the-foreign-exchange-399k Graph Theory in the Foreign Exchange]]
   * @see
   *   [[https://github.com/williamfiset/Algorithms/blob/master/src/main/java/com/williamfiset/algorithms/graphtheory/BellmanFordEdgeList.java William Fiset - Bellmman Ford EdgeList]]
-  * @see
-  *   [[https://anilpai.medium.com/currency-arbitrage-using-bellman-ford-algorithm-8938dcea56ea Currency Arbitrage using Bellman Ford Algorithm]]
   */
-class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
+class BellmanFordAllPaths(nodes: List[Node], edges: List[Edge]):
 
-  def findShortestPaths: (Map[Node, Double], Map[Node, Option[Edge]]) =
+  // Step 1: initialize graph
+  val predecessor: MutableMap[Node, Option[Edge]] =
+    nodes.collect(_ -> None).to(mutable.HashMap)
 
-    // Step 1: initialize graph
-    val distance: MutableMap[Node, Double] =
-      mutable.HashMap(nodes.map(_ -> Double.PositiveInfinity).toSeq: _*)
-
-    val predecessor: MutableMap[Node, Option[Edge]] =
-      mutable.HashMap(nodes.map(_ -> None).toSeq: _*)
+  def findShortestPaths(startingNode: Node): (Map[Node, BigDecimal], Map[Node, Option[Edge]]) =
+    val distance: MutableMap[Node, BigDecimal] =
+      nodes.collect(_ -> BigDecimal(Double.MaxValue)).to(mutable.HashMap)
 
     distance(startingNode) = 0
 
@@ -30,9 +27,8 @@ class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
     for (_ <- 1 until nodes.size if relaxedAnEdge) {
       relaxedAnEdge = false
       for (edge <- edges) {
-        val newDistance = distance(edge.from) + edge.weight
-        if (newDistance < distance(edge.to)) {
-          distance(edge.to) = newDistance
+        if (distance(edge.from) + edge.weight < distance(edge.to)) {
+          distance(edge.to) = distance(edge.from) + edge.weight
           predecessor(edge.to) = Some(edge)
           relaxedAnEdge = true
         }
@@ -40,11 +36,12 @@ class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
     }
 
     // Step 3: check for negative-weight cycles
+    relaxedAnEdge = true
     for (_ <- 1 until nodes.size if relaxedAnEdge) {
       relaxedAnEdge = false
       for (edge <- edges) {
         if (distance(edge.from) + edge.weight < distance(edge.to)) {
-          distance(edge.to) = Double.NegativeInfinity
+          distance(edge.to) = BigDecimal(Double.MinValue)
           relaxedAnEdge = true
         }
       }
@@ -52,7 +49,7 @@ class BellmanFord(nodes: Set[Node], edges: List[Edge], startingNode: Node):
 
     (distance.toMap, predecessor.toMap)
 
-object BellmanFord:
+object BellmanFordAllPaths:
   def apply(
       nodes: Set[Node],
       edges: List[Edge],

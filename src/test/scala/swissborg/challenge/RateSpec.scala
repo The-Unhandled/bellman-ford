@@ -1,6 +1,8 @@
-import org.scalatest.funsuite.AnyFunSuite
-import graph.{Edge, Node}
+package swissborg.challenge
+
 import io.circe.jawn.decode
+import org.scalatest.funsuite.AnyFunSuite
+import swissborg.challenge.graph.{Edge, Node}
 
 import scala.io.Source
 import scala.util.Using

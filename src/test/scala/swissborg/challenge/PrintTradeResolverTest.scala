@@ -1,3 +1,5 @@
+package swissborg.challenge
+
 import org.scalatest.funsuite.AnyFunSuite
 
 class PrintTradeResolverTest extends AnyFunSuite {

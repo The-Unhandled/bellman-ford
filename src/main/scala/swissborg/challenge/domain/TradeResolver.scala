@@ -1,3 +1,7 @@
+package swissborg.challenge.domain
+
+import swissborg.challenge.TradeResolver
+
 import scala.annotation.tailrec
 
 /** @author
