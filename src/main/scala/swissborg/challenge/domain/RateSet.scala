@@ -13,7 +13,7 @@ object RateSet:
         case None        => Left(DecodingFailure("Missing rates", c.history))
       rates <- rateKeys.toList.traverse { pair =>
         pair.split("-") match
-          case Array(to, from) =>
+          case Array(from, to) =>
             for price <- c.downField("rates").downField(pair).as[Double]
             yield Rate(from, to, price)
           case _ => Left(DecodingFailure("Invalid pair", c.history))

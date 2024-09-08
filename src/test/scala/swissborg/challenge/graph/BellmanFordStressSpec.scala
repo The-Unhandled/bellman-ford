@@ -1,8 +1,7 @@
 package swissborg.challenge.graph
-
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.graph.{BellmanFord, Edge, Node}
 import swissborg.challenge.domain.{PrintTradeResolver, RateResolver}
+import swissborg.challenge.graph.{BellmanFord, Edge, Node}
 
 import scala.util.Random
 

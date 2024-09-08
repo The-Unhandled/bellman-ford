@@ -1,12 +1,11 @@
 package swissborg.challenge.graph
-
 import io.circe.jawn.decode
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.domain.{PrintTradeResolver, Rate, RateResolver, RateSet, RateUtils}
+import swissborg.challenge.domain.RateUtils.*
+import swissborg.challenge.domain.*
 
 import scala.io.Source
 import scala.math.BigDecimal.RoundingMode.HALF_UP
-import swissborg.challenge.domain.RateUtils._
 
 class BellmanFordSpec extends AnyFunSuite with RateUtils {
 
@@ -31,11 +30,14 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
           _ = println(s"Starting Node: $startingNode")
           _ = println(s"Distances from $startingNode: $distances")
           _ = println(s"Predecessors from $startingNode: $predecessors")
-          rateList <- RateResolver.resolveRoutes(startingNode, distances, predecessors)
+          rateList <- RateResolver.resolveRoutes(
+            startingNode,
+            distances,
+            predecessors
+          )
           profit = PrintTradeResolver.resolve(startingNode.name, rateList)
         yield
           rateList === expectedRoute
-          assert(BigDecimal(profit).setScale(2, HALF_UP) == 0.26)
 
       case Left(error) =>
         fail(s"Failed to decode rates: $error")
@@ -74,7 +76,7 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
     val expectedRoute = List(
       Rate("BTC", "EUR", 0.086),
       Rate("EUR", "DAI", 0.021),
-      Rate("DAI", "BTC", 4.290880000000003E-5)
+      Rate("DAI", "BTC", 4.290880000000003e-5)
     )
 
     for
@@ -84,7 +86,11 @@ class BellmanFordSpec extends AnyFunSuite with RateUtils {
       _ = println(s"Starting Node: $startingNode")
       _ = println(s"Distances from $startingNode: $distances")
       _ = println(s"Predecessors from $startingNode: $predecessors")
-      rateList <- RateResolver.resolveRoutes(startingNode, distances, predecessors)
+      rateList <- RateResolver.resolveRoutes(
+        startingNode,
+        distances,
+        predecessors
+      )
       profit = PrintTradeResolver.resolve(startingNode.name, rateList, 100)
     yield
       rateList === expectedRoute

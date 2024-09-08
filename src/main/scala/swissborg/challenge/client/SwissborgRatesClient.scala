@@ -11,7 +11,10 @@ class SwissborgRatesClient(url: String, backend: SttpBackend[Identity, Any]):
       .get(uri"$url")
       .response(asJson[RateSet])
 
-    backend.send(request).body match
+    request.send(backend).body match
       case Right(rateSet) => rateSet
-      case Left(exception) =>
-        throw new Exception(s"Failed to fetch rates: $exception")
+      case Left(error)    => throw new Exception(s"Failed to fetch rates - ${error.getMessage}")
+
+object SwissborgRatesClient:
+  def apply(url: String): SwissborgRatesClient =
+    new SwissborgRatesClient(url, HttpClientSyncBackend())

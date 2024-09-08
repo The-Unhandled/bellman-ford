@@ -3,7 +3,7 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / scalaVersion := "3.3.3"
 
 val sttpVersion = "3.9.8"
-val circeVersion = "0.14.7"
+val circeVersion = "0.14.10"
 val scalaTestVersion = "3.2.18"
 
 libraryDependencies ++= Seq(
