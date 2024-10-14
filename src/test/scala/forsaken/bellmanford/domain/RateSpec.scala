@@ -1,8 +1,8 @@
-package swissborg.challenge.domain
+package forsaken.bellmanford.domain
 
+import forsaken.bellmanford.graph.{Edge, Node}
 import io.circe.jawn.decode
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.graph.{Edge, Node}
 
 import scala.io.Source
 

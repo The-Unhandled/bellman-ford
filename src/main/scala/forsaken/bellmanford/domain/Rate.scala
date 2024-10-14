@@ -1,6 +1,6 @@
-package swissborg.challenge.domain
+package forsaken.bellmanford.domain
 
-import swissborg.challenge.graph.{Edge, Node}
+import forsaken.bellmanford.graph.{Edge, Node}
 
 case class Rate(from: String, to: String, value: Double):
   override def toString = f"$from -> $to: ${value % .2f}"

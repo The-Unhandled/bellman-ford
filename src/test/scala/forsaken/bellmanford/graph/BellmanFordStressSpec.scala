@@ -1,6 +1,7 @@
-package swissborg.challenge.graph
+package forsaken.bellmanford.graph
+
+import forsaken.bellmanford.domain.{PrintTradeResolver, RateResolver}
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.domain.{PrintTradeResolver, RateResolver}
 
 import scala.util.Random
 

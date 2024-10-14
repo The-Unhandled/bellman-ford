@@ -1,4 +1,4 @@
-package swissborg.challenge.graph
+package forsaken.bellmanford.graph
 
 case class Node(name: String):
   override def toString: String = name

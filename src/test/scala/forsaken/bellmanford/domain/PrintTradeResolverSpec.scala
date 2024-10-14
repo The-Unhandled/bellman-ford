@@ -1,4 +1,4 @@
-package swissborg.challenge.domain
+package forsaken.bellmanford.domain
 
 import org.scalatest.funsuite.AnyFunSuite
 

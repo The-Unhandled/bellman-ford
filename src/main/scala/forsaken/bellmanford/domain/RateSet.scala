@@ -1,4 +1,4 @@
-package swissborg.challenge.domain
+package forsaken.bellmanford.domain
 
 import cats.syntax.traverse.*
 import io.circe.{Decoder, DecodingFailure, HCursor}

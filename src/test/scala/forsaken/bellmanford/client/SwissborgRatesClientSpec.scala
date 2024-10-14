@@ -1,10 +1,10 @@
-package swissborg.challenge.client
+package forsaken.bellmanford.client
 
+import forsaken.bellmanford.domain.Rate
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import sttp.client3.*
 import sttp.client3.testing.*
-import swissborg.challenge.domain.Rate
 
 import scala.io.Source
 

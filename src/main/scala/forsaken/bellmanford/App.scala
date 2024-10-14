@@ -1,10 +1,10 @@
-package swissborg.challenge
+package forsaken.bellmanford
 
-import swissborg.challenge.client.SwissborgRatesClient
-import swissborg.challenge.domain.{PrintTradeResolver, RateResolver}
-import swissborg.challenge.graph.{BellmanFord, Node}
+import forsaken.bellmanford.client.SwissborgRatesClient
+import forsaken.bellmanford.domain.{PrintTradeResolver, RateResolver}
+import forsaken.bellmanford.graph.{BellmanFord, Node}
 
-object ChallengeApp:
+object App:
   def run(url: String): Unit =
     println("Starting Challenge App")
     println(s"Url chosen: $url")

@@ -47,12 +47,3 @@ A Breakdown of the Time Complexity:
 3. Negative-Weight Cycle Check: This step also processes all E edges, taking O(E) time.
 
 Since the relaxation step dominates the overall time complexity, the total time complexity is O(V * E).
-
-## About Borg Token
-The Borg token (BORG) is a utility token and a key component of the SwissBorg ecosystem.
-
-- Governance: Borg holders can participate in platform governance and vote on proposals, influencing the direction of the SwissBorg ecosystem.
-- Premium Benefits: By locking Borg tokens, users can access SwissBorg Premium, which offers reduced fees and yield boosts based on the amount locked.
-- Borger Journey: Borg holders can engage in the Borger Journey, a gamified experience designed to educate users about the SwissBorg platform while unlocking exclusive opportunities and rewards.
-- BORG Protect & Choose: A percentage of revenue earned from exchange fees is used to buy back BORG tokens. Additionally, Borg holders can decide quarterly how these tokens will be utilized, providing a say in the token's future.
-- Buyback Program: SwissBorg may buy back Borg tokens based on the Community Level Index, which measures community engagement and activity.

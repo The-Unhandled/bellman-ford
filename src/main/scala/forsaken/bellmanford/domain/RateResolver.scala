@@ -1,6 +1,6 @@
-package swissborg.challenge.domain
+package forsaken.bellmanford.domain
 
-import swissborg.challenge.graph.{Edge, Node}
+import forsaken.bellmanford.graph.{Edge, Node}
 
 import scala.annotation.tailrec
 

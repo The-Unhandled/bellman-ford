@@ -1,8 +1,8 @@
-package swissborg.challenge.client
+package forsaken.bellmanford.client
 
+import forsaken.bellmanford.domain.RateSet
 import sttp.client3.*
 import sttp.client3.circe.*
-import swissborg.challenge.domain.RateSet
 
 class SwissborgRatesClient(url: String, backend: SttpBackend[Identity, Any]):
 

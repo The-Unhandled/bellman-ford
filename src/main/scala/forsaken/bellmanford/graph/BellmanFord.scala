@@ -1,4 +1,4 @@
-package swissborg.challenge.graph
+package forsaken.bellmanford.graph
 
 import scala.collection.mutable
 import scala.collection.mutable.Map as MutableMap

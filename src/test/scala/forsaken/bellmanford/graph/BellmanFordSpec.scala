@@ -1,8 +1,10 @@
-package swissborg.challenge.graph
+package forsaken.bellmanford.graph
+
+import forsaken.bellmanford.domain.{PrintTradeResolver, Rate, RateResolver, RateSet, RateUtils}
 import io.circe.jawn.decode
 import org.scalatest.funsuite.AnyFunSuite
-import swissborg.challenge.domain.*
-import swissborg.challenge.domain.RateUtils.*
+import forsaken.bellmanford.domain.*
+import forsaken.bellmanford.domain.RateUtils.*
 
 import scala.io.Source
 import scala.math.BigDecimal.RoundingMode.HALF_UP
